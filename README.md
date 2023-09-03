@@ -1,5 +1,4 @@
 # Management System
-Welcome to the Project Management System! This web application is designed to streamline project management tasks, user registration, and administration. Below, you'll find useful information about installation, functionality, and a brief overview of the project.
 
 ## Table of Contents
 1. [Useful Information](#Useful-Information)
@@ -54,12 +53,11 @@ Here are some screenshots of the Project Management System:
 Dashboard 
 ![](img/1.JPG)
 
-User Management (Admin)
-User Management
+Registration page
+![](img/2.JPG)
 
-User Profile
-User Profile
+Admin page
+![](img/3.JPG)
 
-Password Reset
-Password Reset
-
+Edit User Page (of Admin)
+![](img/4.JPG)
