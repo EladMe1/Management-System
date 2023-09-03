@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <!-- Add necessary CSS dependencies -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+<div th:if="${not isLoggedIn}">
+  <div class="container">
+    <div class="row vh-100 d-flex justify-content-center align-items-center">
+      <div class="col-md-8 col-lg-6 col-xs-12">
+        <div class="border border-3 border-primary"></div>
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="mb-3 mt-md-4">
+              <h2 class="fw-bold mb-2 text-uppercase">Users Management System</h2>
+              <p class="mb-5">Please enter your login and password!</p>
+              <div class="mb-3">
+                <form id="loginForm" method="post">
+                  <div class="mb-3">
+                    <label class="form-label">Email address</label>
+                    <input class="form-control" type="email" placeholder="Enter email"
+                           required="required" id="emailInput" name="email">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control" type="password" placeholder="Password"
+                           required="required" id="passwordInput" name="password">
+                  </div>
+                  <div class="mb-3">
+                    <p class="small">
+                      <a class="text-primary" href="/forgot-password">Forgot password?</a>
+                    </p>
+                  </div>
+                  <div class="d-grid">
+                    <button class="btn btn-primary" type="submit">Login</button>
+                  </div>
+                </form>
+                <div class="mt-3">
+                  <p class="mb-0 text-center">
+                    Don't have an account? <a href="/register" class="text-primary fw-bold">Sign Up</a>
+                  </p>
+                </div>
+                <p id="error" style="color: red"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+<script>
+  const loginForm = document.getElementById("loginForm");
+  const errorElement = document.getElementById("error");
+
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // Prevent the form from submitting in the default way
+
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+
+    const emailValue = emailInput.value.trim();
+    const passwordValue = passwordInput.value.trim();
+
+    const userData = {
+      email: emailValue,
+      password: passwordValue,
+    };
+
+    // Send a POST request to the login API endpoint
+    fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+            .then((response) => {
+              if (response.ok) {
+                // Parse the response to check if the user is an admin
+                response.json().then((data) => {
+                  if (data.isAdmin) {
+                    // If the user is an admin, redirect to the admin page
+                    window.location.replace("/admin");
+                  } else {
+                    // If the user is not an admin, redirect to the home page
+                    window.location.replace("/Home");
+                  }
+                });
+              } else {
+                response.json().then((errorData) => {
+                  errorElement.textContent = errorData.error;
+                  if (errorData.error === "Your account is disabled") {
+                    // Clear the form inputs if the account is disabled
+                    emailInput.value = "";
+                    passwordInput.value = "";
+                  }
+                });
+              }
+            })
+            .catch((error) => {
+              console.error("Login error:", error);
+              // Handle login error, e.g., display an error message to the user
+            });
+  });
+</script>
+</html>
