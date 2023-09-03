@@ -2,7 +2,7 @@
 Welcome to the Project Management System! This web application is designed to streamline project management tasks, user registration, and administration. Below, you'll find useful information about installation, functionality, and a brief overview of the project.
 
 ## Table of Contents
-1. [Useful Information](#Useful Information)
+1. [Useful Information](#Useful-Information)
 2. [Installation](#Installation)
 3. [General Information](#General-Information)
 4. [Functionality](#Functionality)
@@ -51,8 +51,8 @@ The UserController handles the "/api/forgot-password" POST request to reset a us
 ## Screenshots
 Here are some screenshots of the Project Management System:
 
-Dashboard
-![](img/1.jpg)
+Dashboard 
+![](img/1.JPG)
 
 User Management (Admin)
 User Management
